@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('tasks', \App\Http\Controllers\TasksController::class);
-
-    Route::resource('users', \App\Http\Controllers\UsersController::class);
+    // Route::resource('tasks', \App\Http\Controllers\TasksController::class);
+    // Route::resource('users', \App\Http\Controllers\UsersController::class);
+    Route::resource('patients', \App\Http\Controllers\PatientController::class);
+    // Route::get('/patients/index', [PatientController::class, 'index'])->name('patients.index');
 });
+Route::get('/', [PatientController::class, 'create'])->name('patients.create');
+Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
